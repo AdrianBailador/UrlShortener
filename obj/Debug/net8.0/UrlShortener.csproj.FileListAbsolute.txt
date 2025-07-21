@@ -156,3 +156,4 @@
 /Users/adrianbailador/Desktop/Projects Adri/UrlShortener/obj/Debug/net8.0/UrlShortener.pdb
 /Users/adrianbailador/Desktop/Projects Adri/UrlShortener/obj/Debug/net8.0/UrlShortener.genruntimeconfig.cache
 /Users/adrianbailador/Desktop/Projects Adri/UrlShortener/obj/Debug/net8.0/ref/UrlShortener.dll
+/Users/adrianbailador/Desktop/Projects Adri/UrlShortener/obj/Debug/net8.0/UrlShortener.sourcelink.json
