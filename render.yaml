@@ -1,0 +1,9 @@
+services:
+  - type: web
+    name: url-shortener
+    env: dotnet
+    buildCommand: dotnet publish UrlShortener/UrlShortener.csproj -c Release -o out
+    startCommand: dotnet out/UrlShortener.dll
+    rootDir: UrlShortener
+    plan: free
+    runtime: dotnet
