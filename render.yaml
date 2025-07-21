@@ -6,4 +6,3 @@ services:
     startCommand: dotnet out/UrlShortener.dll
     rootDir: UrlShortener
     plan: free
-    runtime: dotnet
