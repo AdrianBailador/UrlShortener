@@ -16,7 +16,8 @@ public class UrlController : Controller
 
     public IActionResult Index() => View();
 
-    [HttpPost]
+
+[HttpPost]
 public async Task<IActionResult> Shorten(string originalUrl, string? customCode, DateTime? expiresAt)
 {
     if (!Uri.IsWellFormedUriString(originalUrl, UriKind.Absolute))
@@ -45,14 +46,22 @@ public async Task<IActionResult> Shorten(string originalUrl, string? customCode,
 
     if (!string.IsNullOrWhiteSpace(customCode))
     {
-        bool exists = await _context.UrlMappings.AnyAsync(x => x.ShortCode == customCode);
+        var trimmedCode = customCode.Trim();
+
+        if (!System.Text.RegularExpressions.Regex.IsMatch(trimmedCode, @"^[a-zA-Z0-9_-]+$"))
+        {
+            TempData["Error"] = "The custom code contains invalid characters. Use only letters, numbers, '-' or '_'.";
+            return RedirectToAction("Index");
+        }
+
+        bool exists = await _context.UrlMappings.AnyAsync(x => x.ShortCode == trimmedCode);
         if (exists)
         {
             TempData["Error"] = "This code is already in use.";
             return RedirectToAction("Index");
         }
 
-        shortCode = customCode.Trim();
+        shortCode = trimmedCode;
     }
     else
     {
@@ -73,11 +82,13 @@ public async Task<IActionResult> Shorten(string originalUrl, string? customCode,
     _context.UrlMappings.Add(mapping);
     await _context.SaveChangesAsync();
 
-    var fullShortUrl = $"{Request.Scheme}://{Request.Host}/{shortCode}";
+    var host = Request.Host.HasValue ? Request.Host.Value : "localhost:5098";
+    var fullShortUrl = $"{Request.Scheme}://{host}/{shortCode}";
     TempData["ShortUrl"] = fullShortUrl;
 
     return RedirectToAction("Index");
 }
+
 
 
    [HttpGet("/{code}")]

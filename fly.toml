@@ -1,19 +1,30 @@
-app = "url-shortener-pabaad" 
+# fly.toml app configuration file generated for url-shortener-pabaad on 2025-07-21T19:00:41+01:00
+#
+# See https://fly.io/docs/reference/configuration/ for information about how to use this file.
+#
+
+app = 'url-shortener-pabaad'
+primary_region = 'lhr'
 
 [build]
-  dockerfile = "Dockerfile"
+  dockerfile = 'Dockerfile'
 
 [env]
-  PORT = "8080"
+  PORT = '8080'
 
 [[services]]
+  protocol = 'tcp'
   internal_port = 8080
-  protocol = "tcp"
 
   [[services.ports]]
-    handlers = ["http"]
     port = 80
+    handlers = ['http']
 
   [[services.ports]]
-    handlers = ["tls", "http"]
     port = 443
+    handlers = ['tls', 'http']
+
+[[vm]]
+  memory = '1gb'
+  cpu_kind = 'shared'
+  cpus = 1
